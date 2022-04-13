@@ -2,7 +2,6 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/NavBar';
 import StorePage from './pages/StorePage';
-import addProduct from './pages/addProduct';
 import {
 	deleteProduct,
 	getProducts,
@@ -13,6 +12,8 @@ import React, { useEffect, useState } from 'react';
 import Footer from './components/Footer';
 import AdminPage from './pages/AdminPage';
 import CreateProductPage from './pages/CreateProductPage';
+import { StoreProvider } from './context/storeContext';
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
 	const [allProducts, setAllProducts] = useState([]);
@@ -55,25 +56,30 @@ function App() {
 
 	return (
 		<div className="App">
-			<NavBar />
-			<Routes>
-				<Route index element={<StorePage allProducts={allProducts} />} />
-				<Route
-					path="/admin"
-					element={<AdminPage allProducts={allProducts} onDelete={handleOnDelete} />}
-				/>
-				<Route
-					path="/admin/create-product"
-					element={<CreateProductPage onSave={handleOnSave} />}
-				/>
-				<Route
-					path="/admin/create-product/:productId"
-					element={<CreateProductPage onSave={handleOnEdit} />}
-				/>
-				<Route path="/admin/:productId" element={handleOnDelete} />
-			</Routes>
+			<StoreProvider>
+				<NavBar />
+				<Routes>
+					<Route index element={<StorePage allProducts={allProducts} />} />
+					<Route path="/checkout" element={<CheckoutPage />} />
+					<Route
+						path="/admin"
+						element={
+							<AdminPage allProducts={allProducts} onDelete={handleOnDelete} />
+						}
+					/>
+					<Route
+						path="/admin/create-product"
+						element={<CreateProductPage onSave={handleOnSave} />}
+					/>
+					<Route
+						path="/admin/create-product/:productId"
+						element={<CreateProductPage onSave={handleOnEdit} />}
+					/>
+					<Route path="/admin/:productId" element={handleOnDelete} />
+				</Routes>
 
-			<Footer />
+				<Footer />
+			</StoreProvider>
 		</div>
 	);
 }

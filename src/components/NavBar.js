@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { StoreContext } from '../context/storeContext';
 
 const NavBar = () => {
+	const { listProducts } = useContext(StoreContext);
+	console.log(listProducts.length);
 	return (
 		<nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 shadow-sm">
 			<div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -21,6 +24,7 @@ const NavBar = () => {
 					>
 						Get started
 					</Link>
+					<Link to={'/checkout'}>{listProducts.length}</Link>
 				</div>
 				<div
 					className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
