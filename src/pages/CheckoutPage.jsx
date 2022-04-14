@@ -4,13 +4,20 @@ import { StoreContext } from '../context/storeContext';
 import { saveCheckout } from '../api/checkoutApi';
 import { useNavigate } from 'react-router-dom';
 
+const style = {
+	input: `form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`,
+	button: `w-full px-6 py-2.5	bg-blue-600	text-white font-medium text-xs leading-tight uppercase	rounded	shadow-md	hover:bg-blue-700 hover:shadow-lg	focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0	active:bg-blue-800 active:shadow-lg	transition duration-150	ease-in-out`,
+};
+
 const CheckoutPage = () => {
 	const navigate = useNavigate();
+
 	const { listProducts, setListProducts } = useContext(StoreContext);
+
 	const total = listProducts.reduce((accumulator, object) => {
 		return accumulator + object.price;
 	}, 0);
-	console.log(total);
+
 	const defaultCheckout = {
 		name: '',
 		address: '',
@@ -31,43 +38,65 @@ const CheckoutPage = () => {
 		const value = event.target.value;
 		setNewCheckout({ ...newCheckout, [name]: value });
 	};
+
+	const handleOnRemove = async (productId) => {
+		// const copyOfProducts = Array.from(listProducts);
+		// const index = copyOfProducts.indexOf({ _id: productId });
+		// console.log(index);
+		const result = await listProducts.filter(
+			(product) => product._id !== productId
+		);
+		await setListProducts(result);
+		console.log(listProducts);
+	};
+
 	return (
 		<>
-			<ListOfCheckout products={listProducts} />
-			<form>
-				<div>
-					<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-						Name
-					</label>
-					<input
-						type="text"
-						name="name"
-						onChange={handleOnChange}
-						id="small-input"
-						className="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-					/>
-					<label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-						Address
-					</label>
-					<input
-						type="text"
-						name="address"
-						onChange={handleOnChange}
-						id="small-input"
-						className="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-					/>
-					<button
-						type="button"
-						disabled={newCheckout.name === '' || newCheckout.address === ''}
-						className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-						onClick={() => {
-							handleOnSave(newCheckout);
-						}}
-					>
-						Submit
-					</button>
+			<div className="flex">
+				<div className="flex-1 w-64 m-6 p-6">
+					<ListOfCheckout products={listProducts} onRemove={handleOnRemove} />
 				</div>
-			</form>
+				<div className="flex-1 w-32 m-6 p-6 rounded-lg shadow-lg bg-white h-80">
+					<h1 className="text-2xl p-3 uppercase">Payment</h1>
+					<form>
+						<div className="form-group mb-6">
+							<input
+								type="text"
+								className={style.input}
+								name="name"
+								placeholder="Add a name"
+								value={newCheckout.name}
+								onChange={handleOnChange}
+							/>
+						</div>
+						<div className="form-group mb-6">
+							<input
+								className={style.input}
+								type="text"
+								name="address"
+								placeholder="Add address"
+								value={newCheckout.address}
+								onChange={handleOnChange}
+							/>
+						</div>
+						<div>
+							<span className="text-2xl font-bold text-gray-900 dark:text-white pb-2">
+								{`$${total}`}
+							</span>
+							<button
+								type="button"
+								disabled={newCheckout.name === '' || newCheckout.address === ''}
+								className={style.button}
+								onClick={() => {
+									handleOnSave(newCheckout);
+								}}
+							>
+								Pay
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</>
 	);
 };

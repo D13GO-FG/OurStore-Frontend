@@ -1,8 +1,12 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 export const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
 	const [listProducts, setListProducts] = useState([]);
+	// useEffect(() => {
+	// 	setListProducts(listProducts);
+	// }, [listProducts]);
+
 	// const addToCarShop = (product) => {
 	//   const {_id} = product;
 	// 		const copyOfProduct = Array.from(listProducts);
