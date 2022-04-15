@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 const style = {
 	input: `form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`,
@@ -7,12 +8,24 @@ const style = {
 };
 
 const CreateProduct = ({ onSave, product }) => {
+	const {
+		reset,
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
+	const onSubmit = (data) => {
+		if (product?._id) onSave(product._id, newProduct);
+		else onSave(newProduct);
+	};
+
 	const defaultNewProduct = {
 		name: '',
 		description: '',
 		imageUrl: '',
 		updatedAt: new Date().toISOString(),
-		price: 0,
+		price: '',
 	};
 
 	const [newProduct, setNewProduct] = useState(defaultNewProduct);
@@ -21,6 +34,10 @@ const CreateProduct = ({ onSave, product }) => {
 			setNewProduct(product);
 		}
 	}, [product]);
+
+	useEffect(() => {
+		reset(newProduct);
+	}, [newProduct]);
 
 	const handleOnChange = (event) => {
 		const name = event.target.name;
@@ -31,47 +48,63 @@ const CreateProduct = ({ onSave, product }) => {
 
 	return (
 		<div className="m-6 p-6 rounded-lg shadow-lg bg-white">
-			<form>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="form-group mb-6">
 					<input
+						defaultValue={newProduct.name}
 						type="text"
 						className={style.input}
 						name="name"
 						placeholder="Add a name"
-						value={newProduct.name}
+						{...register('name', { required: true })}
 						onChange={handleOnChange}
 					/>
+					{errors.name && (
+						<p className="text-rose-600 text-left">Please add the name</p>
+					)}
 				</div>
 				<div className="form-group mb-6">
 					<input
+						defaultValue={newProduct.price}
 						className={style.input}
 						type="number"
 						name="price"
 						placeholder="Add price"
-						value={newProduct.price}
+						{...register('price', { required: true })}
 						onChange={handleOnChange}
 					/>
+					{errors.price && (
+						<p className="text-rose-600 text-left">Please add the price</p>
+					)}
 				</div>
 				<div className="form-group mb-6">
 					<textarea
+						defaultValue={newProduct.description}
 						className={style.input}
 						rows="3"
 						type="text"
 						name="description"
 						placeholder="Add a body description"
-						value={newProduct.description}
+						{...register('description', { required: true })}
 						onChange={handleOnChange}
 					></textarea>
+					{errors.description && (
+						<p className="text-rose-600 text-left">Please add the description</p>
+					)}
 				</div>
 				<div className="form-group mb-6">
 					<input
+						defaultValue={newProduct.imageUrl}
 						className={style.input}
 						type="text"
 						name="imageUrl"
 						placeholder="Add an image url"
-						value={newProduct.imageUrl}
+						{...register('imageUrl', { required: true })}
 						onChange={handleOnChange}
 					/>
+					{errors.imageUrl && (
+						<p className="text-rose-600 text-left">Please add the image</p>
+					)}
 					{newProduct.imageUrl !== '' && (
 						<img
 							style={{
@@ -91,15 +124,7 @@ const CreateProduct = ({ onSave, product }) => {
 						Cancel
 					</Link>
 
-					<button
-						type="button"
-						className={style.button}
-						disabled={newProduct.name === '' || newProduct.price === undefined}
-						onClick={() => {
-							if (product?._id) onSave(product._id, newProduct);
-							else onSave(newProduct);
-						}}
-					>
+					<button type="submit" className={style.button}>
 						Send
 					</button>
 				</div>

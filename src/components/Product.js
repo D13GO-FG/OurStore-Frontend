@@ -4,10 +4,34 @@ import { StoreContext } from '../context/storeContext';
 const Product = ({ product, productId }) => {
 	const { listProducts, setListProducts } = useContext(StoreContext);
 
+	var mongoObjectId = function () {
+		var timestamp = ((new Date().getTime() / 1000) | 0).toString(16);
+		return (
+			timestamp +
+			'xxxxxxxxxxxxxxxx'
+				.replace(/[x]/g, function () {
+					return ((Math.random() * 16) | 0).toString(16);
+				})
+				.toLowerCase()
+		);
+	};
+
+	const addPruduct = (product, productId) => {
+		const even = listProducts.some((product) => product._id === productId);
+		if (even) {
+			const thisProduct = { ...product };
+			thisProduct._id = mongoObjectId();
+			console.log(thisProduct);
+			setListProducts([...listProducts, thisProduct]);
+		} else {
+			setListProducts([...listProducts, product]);
+		}
+	};
 	return (
-		<div className="max-w-sm bg-white rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
+		<div className="rounded overflow-hidden shadow-lg">
+			<div className="flex flex-1 flex-col justify-between"></div>
 			<img
-				className="rounded-t-lg block h-auto w-full"
+				className="w-full h-80 object-cover"
 				src={product.imageUrl}
 				alt="Product"
 			/>
@@ -21,7 +45,7 @@ const Product = ({ product, productId }) => {
 					</span>
 					<button
 						type="button"
-						onClick={() => setListProducts([...listProducts, product])}
+						onClick={() => addPruduct(product, productId)}
 						className="text-black bg-green-500 hover:bg-green-400 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700"
 					>
 						Add to cart

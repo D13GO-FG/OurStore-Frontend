@@ -3,29 +3,16 @@ import { Link } from 'react-router-dom';
 
 const ProductAdmin = ({ product, productId, onDelete }) => {
 	return (
-		// <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-		// 	<div className="mb-8">
-		// 		<div className="text-gray-900 font-bold text-xl mb-2">{product.name}</div>
-		// 		<p className="text-gray-700 text-base">{product.description}</p>
-		// 	</div>
-		// 	<div className="flex items-center">
-		// 		<div className="text-sm">
-		// 			<p className="text-gray-900 leading-none">{product.price}</p>
-		// 		</div>
-		// 		<Link to={`/admin/create-product/${productId}`}>Edit product</Link>
-		// 		<button onClick={() => onDelete(productId)}>Delete product</button>
-		// 	</div>
-		// </div>
-		<div class="flex justify-center">
-			<div class="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg">
+		<div className="flex justify-center">
+			<div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg">
 				<img
-					class=" w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg"
+					className="rounded-t-lg w-full h-96 object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
 					src={product.imageUrl}
 					alt=""
 				/>
-				<div class="p-6 flex flex-col justify-start">
-					<h5 class="text-gray-900 text-xl font-medium mb-2">{product.name}</h5>
-					<p class="text-gray-700 text-base mb-4">{product.description}</p>
+				<div className="p-6 flex flex-col justify-start">
+					<h5 className="text-gray-900 text-xl font-medium mb-2">{product.name}</h5>
+					<p className="text-gray-700 text-base mb-4">{product.description}</p>
 					<span className="text-2xl font-bold text-gray-900 dark:text-white pb-2">
 						{`$${product.price}`}
 					</span>

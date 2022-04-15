@@ -1,9 +1,6 @@
-import React, { useContext } from 'react';
-import { StoreContext } from '../context/storeContext';
+import React from 'react';
 
 const ProductCheckout = ({ product, productId, onRemove }) => {
-	const { listProducts, setListProducts } = useContext(StoreContext);
-
 	return (
 		<div className="flex justify-center">
 			<div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg">
@@ -32,26 +29,6 @@ const ProductCheckout = ({ product, productId, onRemove }) => {
 				</div>
 			</div>
 		</div>
-		// <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-		// 	<div class="md:flex">
-		// 		<div class="md:shrink-0">
-		// 			<img
-		// 				class="h-48 w-full object-cover md:h-full md:w-48"
-		// 				src={product.imageUrl}
-		// 				alt="Man looking at item at a store"
-		// 			/>
-		// 		</div>
-		// 		<div class="p-8">
-		// 			<div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
-		// 				{product.price}
-		// 			</div>
-		// 			<h1 class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
-		// 				{product.name}
-		// 			</h1>
-		// 			<p class="mt-2 text-slate-500">{product.description}</p>
-		// 		</div>
-		// 	</div>
-		// </div>
 	);
 };
 

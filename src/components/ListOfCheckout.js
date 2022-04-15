@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ProductCheckout from './ProductCheckout';
 
 const ListOfCheckout = ({ products, onRemove }) => {
