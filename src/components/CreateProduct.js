@@ -15,23 +15,27 @@ const CreateProduct = ({ onSave, product }) => {
 		updatedAt: new Date().toISOString(),
 		price: '',
 	};
+
 	const [newProduct, setNewProduct] = useState(defaultNewProduct);
 
 	const {
+		reset,
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm();
+	} = useForm({ product });
 
 	useEffect(() => {
 		if (product) {
 			setNewProduct(product);
+			// reset(product);
 		}
 	}, [product]);
 
-	// useEffect(() => {
-	// 	reset(newProduct);
-	// }, [newProduct]);
+	useEffect(() => {
+		reset(newProduct);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [newProduct]);
 
 	const onSubmit = (data) => {
 		if (product?._id) onSave(product._id, newProduct);

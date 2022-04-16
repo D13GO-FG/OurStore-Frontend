@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ListOfCheckout from '../components/ListOfCheckout';
 import { StoreContext } from '../context/storeContext';
 import { saveCheckout } from '../api/checkoutApi';
@@ -17,6 +17,7 @@ const CheckoutPage = () => {
 	const { listProducts, setListProducts } = useContext(StoreContext);
 
 	const {
+		reset,
 		register,
 		handleSubmit,
 		formState: { errors },
@@ -66,9 +67,10 @@ const CheckoutPage = () => {
 		await setListProducts(result);
 	};
 
-	// useEffect(() => {
-	// 	reset(newCheckout);
-	// }, [newCheckout]);
+	useEffect(() => {
+		reset(newCheckout);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [newCheckout]);
 
 	return (
 		<>
