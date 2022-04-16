@@ -8,18 +8,6 @@ const style = {
 };
 
 const CreateProduct = ({ onSave, product }) => {
-	const {
-		reset,
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-
-	const onSubmit = (data) => {
-		if (product?._id) onSave(product._id, newProduct);
-		else onSave(newProduct);
-	};
-
 	const defaultNewProduct = {
 		name: '',
 		description: '',
@@ -29,15 +17,30 @@ const CreateProduct = ({ onSave, product }) => {
 	};
 
 	const [newProduct, setNewProduct] = useState(defaultNewProduct);
+
+	const {
+		reset,
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({ product });
+
 	useEffect(() => {
 		if (product) {
 			setNewProduct(product);
+			// reset(product);
 		}
 	}, [product]);
 
 	useEffect(() => {
 		reset(newProduct);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [newProduct]);
+
+	const onSubmit = (data) => {
+		if (product?._id) onSave(product._id, newProduct);
+		else onSave(newProduct);
+	};
 
 	const handleOnChange = (event) => {
 		const name = event.target.name;

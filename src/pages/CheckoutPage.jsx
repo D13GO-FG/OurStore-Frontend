@@ -69,6 +69,7 @@ const CheckoutPage = () => {
 
 	useEffect(() => {
 		reset(newCheckout);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [newCheckout]);
 
 	return (
