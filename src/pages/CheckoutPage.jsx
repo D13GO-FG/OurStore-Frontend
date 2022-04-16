@@ -67,9 +67,9 @@ const CheckoutPage = () => {
 		await setListProducts(result);
 	};
 
-	useEffect(() => {
-		reset(newCheckout);
-	}, [newCheckout]);
+	// useEffect(() => {
+	// 	reset(newCheckout);
+	// }, [newCheckout]);
 
 	return (
 		<>
