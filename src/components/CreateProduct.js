@@ -8,18 +8,6 @@ const style = {
 };
 
 const CreateProduct = ({ onSave, product }) => {
-	const {
-		reset,
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-
-	const onSubmit = (data) => {
-		if (product?._id) onSave(product._id, newProduct);
-		else onSave(newProduct);
-	};
-
 	const defaultNewProduct = {
 		name: '',
 		description: '',
@@ -27,17 +15,29 @@ const CreateProduct = ({ onSave, product }) => {
 		updatedAt: new Date().toISOString(),
 		price: '',
 	};
-
 	const [newProduct, setNewProduct] = useState(defaultNewProduct);
+
+	const {
+		reset,
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
 	useEffect(() => {
 		if (product) {
 			setNewProduct(product);
 		}
 	}, [product]);
 
-	useEffect(() => {
-		reset(newProduct);
-	}, [newProduct]);
+	// useEffect(() => {
+	// 	reset(newProduct);
+	// }, [newProduct]);
+
+	const onSubmit = (data) => {
+		if (product?._id) onSave(product._id, newProduct);
+		else onSave(newProduct);
+	};
 
 	const handleOnChange = (event) => {
 		const name = event.target.name;
