@@ -18,7 +18,6 @@ const CreateProduct = ({ onSave, product }) => {
 	const [newProduct, setNewProduct] = useState(defaultNewProduct);
 
 	const {
-		reset,
 		register,
 		handleSubmit,
 		formState: { errors },
